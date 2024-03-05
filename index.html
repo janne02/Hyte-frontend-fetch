@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <style>
+      button {
+        margin-top: 20px;
+      }
+      .show_joke {
+        color: rgb(255, 255, 255);
+        background-color: rgb(204, 201, 201);
+        padding: 20px;
+        margin-top: 20px;
+      }
+      .card-container {
+        display: flex;
+        height: 400px;
+      }
+      .card {
+        margin: 0 10px;
+        width: 50%;
+        border-radius: 25px 0 0 0;
+        
+        overflow: hidden;
+       
+      }
+      .card-img {
+      
+      height: 100%;
+      display: flex;
+      
+      }
+      .card-img img {
+      max-width: 100%; /* Aseta kuvan maksimileveys 100% kortin leveydestä */
+      max-height: 100%; /* Aseta kuvan maksimikorkeus 100% kortin korkeudesta */
+      object-fit: cover; /* Sovita kuva täyttämään 30% kortin leveydestä */
+}
+      .card-diary {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        height: 100%;
+        text-align: center;
+      }
+      .card-diary h2 {
+        color: rgb(17, 195, 240);
+      }
+      .card-diary p {
+        padding-left: 90px;
+        padding-right: 90px;
+        font-weight: bolder;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+      }
+      .catpics {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+}
+
+      .catpics img {
+        max-width: 200px;
+        margin: 10px;
+}
+    </style>
+  </head>
+  <body>
+    <h3>1. Fetch API GET request - Vitsi API rajapinnasta</h3>
+    <div id="show_joke"></div>
+
+    <button class="chuck">Hae vitsi</button>
+
+    <script type="module" src="./joke.js"></script>
+    <h3>2. Fetch API GET request - Kissakuvat, JSON tiedosto</h3>
+    <figure>
+    <img src="http://placekitten.com/421/251"
+     alt="Kissakuva"/>
+    <figcaption></figcaption>
+    </figure>
+
+    <script type="module" src="./main.js"></script>
+    <button class=".createPics2">Hae Kissakuvat</button>
+   
+    <h2>generoidut kissakuvat</h2>
+    <div id="kart">
+      
+    </div>
+    <h3>3. Flexboxilla tehty kortti - Staattinen tieto</h3>
+    <section class="card-area">
+      <div class="card-container">
+      
+        <div class="card">
+          <div class="card-img" id="trigger">
+            <img src="img/training.jpg" width="200" alt="guy">
+        
+        <div class="card-diary">
+          <h2>Training programs PPL</h2>
+          <p>Push pull legs is a popular training split that divides workouts into three main categories: push exercises, pull exercises and leg exercises. Push workouts focus on exercises that involve pushing movements, such as bench press and shoulder press. The pull workouts target pulling movements, such as rows and pull-ups. Leg workout primarily focus on lower body exercises, such as squats and deadlifts. </p>         
+        </div>
+      </div>
+    </div> 
+      <div class="card">
+          <div class="card-img">
+            <img src="img/training.jpg" width="200" alt="guy">
+        
+        <div class="card-diary">
+          <h2>Training programs PPL</h2>
+          <p>Push pull legs is a popular training split that divides workouts into three main categories: push exercises, pull exercises and leg exercises. Push workouts focus on exercises that involve pushing movements, such as bench press and shoulder press. The pull workouts target pulling movements, such as rows and pull-ups. Leg workout primarily focus on lower body exercises, such as squats and deadlifts.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+  </section>
+    <h3>4. Flexboxilla tehty kortti - Fetch + Itse luodut elementit</h3>
+    <button class="diarybutton">Hae kortti</button>
+   <div id="card-container"></div> 
+    
+      
+      
+    </script>
+  </body>
+</html>
