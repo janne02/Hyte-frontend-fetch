@@ -10,43 +10,14 @@
     <ul>
       <li><a href="#home">Esimerkkisivusto</a></li>
       <li><a href="#news">Tietoja</a></li>
-      <li style="float: right" class="active logout"><a href="">Logout</a></li>
+      <li style="float: right" class="active logout"><a href="#" id="logout">Logout</a></li>
     </ul>
 
     <!-- <div id="app"></div> -->
 
     <div class="user">Hei kirjautunut käyttäjä: <span id="name">NIMI TÄHÄN</span>!</div>
-
-    <h3>/api/users</h3>
-
-    <h3>Esimerkkitaulukko</h3>
-
-    <table class="styled-table">
-      <thead>
-        <tr>
-          <th>User Name</th>
-          <th>User Level</th>
-          <th>Info</th>
-          <th>Delete</th>
-          <th>ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Dom</td>
-          <td>6000</td>
-          <td><button class="check" data-id="1">Info</button></td>
-          <td><button class="del" data-id="1">Delete</button></td>
-          <td>1</td>
-        </tr>
-        <!--  <tr class="active-row"> -->
-        <tr>
-          <td>Melissa</td>
-          <td>5150</td>
-          <td><button class="check" data-id="2">Info</button></td>
-          <td><button class="del" data-id="2">Delete</button></td>
-          <td>2</td>
-        </tr>
+  
+    
         <!-- and so on... -->
         <!-- Delete nappula poistaa käyttäjän-->
         <!-- käytämme tässä apuna data-attribuutteja-->
@@ -129,12 +100,7 @@
   
             <label for="email">Email</label><br>
             <input type="email" id="email" name="email" placeholder="update4@example.com"><br><br>
-  
-    <!-- Hidden input field for user ID (used for PUT request) -->
-            <label for="Id">ID (vain PUT testausta varten)</label><br>
-            <input type="text" id="userId" name="userId" placeholder="ID"><br><br>
-  
-          
+      
             <button type="button" id="postUserButton">POST</button>
             <button type="button" id="putUserButton">PUT</button>
           </div>
@@ -183,7 +149,7 @@
       # Get entries by id
       GET http://localhost:3000/api/entries/:id
     </pre>
-    <button class="get_entry">Hae (user:1) entries</button>
+    <button class="get_entry">Hae entries</button>
     <table class="styled-table">
           <thead>
             <tr> 
@@ -194,7 +160,6 @@
               <th>sleep_hours</th>
               <th>notes</th> 
               <th>created_at</th>
-              <th>Info</th>
               <th>Delete</th>
             </tr>
           </thead>

@@ -1,23 +1,6 @@
 import './style.css';
 import { fetchData } from './fetch.js';
 
-const bt1 = document.querySelector('.get_entry');
-bt1.addEventListener('click', async () => {
-  console.log('Klikki toimii');
-  const muntokeni = localStorage.getItem('token');
-  const url = 'http://localhost:3000/api/entries/1';
-
-  const options = {
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    headers: {
-      Authorization: 'Bearer: '+ muntokeni,
-    },
-  };
-  fetchData(url, options).then((data) => {
-    // käsitellään fetchData funktiosta tullut JSON
-    console.log(data);
-  });
-});
   let name = localStorage.getItem('name');
   document.getElementById('name').innerHTML = name;
  
@@ -30,6 +13,25 @@ bt1.addEventListener('click', async () => {
 
 // tämä toimi ennen autentikaatiota, nyt tarvitsee tokenin, siistitään pian!
 // sivuille on nyt myös lisätty navigaatio html sivuun, sekä siihen sopiva CSS koodi, hae siis uusi HTML ja UUSI CSS ennen kun aloitat
+document.addEventListener('DOMContentLoaded', function() {
+  // Get the logout
+  const logoutLink = document.getElementById('logout');
+
+  // Add click event listener to the logout link
+  logoutLink.addEventListener('click', function(event) {
+    // Prevent the default behavior of the link (e.g., navigating to "#")
+    event.preventDefault();
+    
+    // Perform logout
+    activelogout();
+  });
+});
+
+async function activelogout() {
+  localStorage.clear();
+  window.location.href = 'start-auth.html';
+}
+
 const button1 = document.querySelector('.get_users');
 button1.addEventListener('click', getAllUsers);
 
@@ -211,7 +213,8 @@ async function confirmDelete(userId) {
       }
 
       console.log('User deleted successfully');
-      
+      //when confirm button is pressed it refresh table as well
+      await getAllUsers();
   } catch (error) {
       console.error('Error deleting user:', error);
   }
@@ -245,38 +248,6 @@ async function confirmEntryDelete(entry_id) {
       console.error('Error deleting entry:', error);
   }
 }
-const userpost = document.getElementById('postUserButton');
-userpost.addEventListener('click', async () => {
-
-
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const email = document.getElementById('email').value;
-
-  const formData = {
-    username: username,
-    password: password,
-    email: email
-  };
-
-  try {
-    const response = await fetch('http://127.0.0.1:3000/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to add user');
-    }
-
-    window.alert('User added successfully');
-  } catch (error) {
-    window.alert('Error adding user:', error);
-  }
-});
 const userput = document.getElementById('putUserButton');
 userput.addEventListener('click', async () => {
   const tokeni = localStorage.getItem('token');
@@ -382,13 +353,14 @@ const button7 = document.querySelector('.get_entry');
 button7.addEventListener('click', getEntry);
 async function getEntry() {
   console.log('Button clicked!');
+  const token = localStorage.getItem('token');
 
   try {
-    const token = localStorage.getItem('token');
     
-    const response = await fetch('http://127.0.0.1:3000/api/entries/', {
+    
+    const response = await fetch('http://localhost:3000/api/entries/', {
       headers: {
-        Authorization: 'Bearer: ' + token,
+        Authorization: 'Bearer ' + token,
       }
     });
 
@@ -398,54 +370,44 @@ async function getEntry() {
     // Clear table body
     const tbody = document.querySelector('.tbody1');
     tbody.innerHTML = '';
-
+    data.forEach(entry => {
     // Create table row element
     let tr = document.createElement('tr');
 
     // tde0 entry_id
     let tde0 = document.createElement('td');
-    tde0.innerText = data.entry_id;
+    tde0.innerText = entry.entry_id;
 
     // tde1 user_id
 
 
     // tde2 entry_date
     let tde2 = document.createElement('td');
-    tde2.innerText = data.entry_date;
+    tde2.innerText = entry.entry_date;
     // tde3 mood
     let tde3 = document.createElement('td');
-    tde3.innerText = data.mood;
+    tde3.innerText = entry.mood;
     // tde4 weight
     let tde4 = document.createElement('td');
-    tde4.innerText = parseFloat(data.weight).toFixed(2);
+    tde4.innerText = parseFloat(entry.weight).toFixed(2);
     // tde5 sleep_hours
     let tde5 = document.createElement('td');
-    tde5.innerText = parseInt(data.sleep_hours);
+    tde5.innerText = parseInt(entry.sleep_hours);
     // tde6 notes
     let tde6 = document.createElement('td');
-    tde6.innerText = data.notes;
+    tde6.innerText = entry.notes;
     // td7 created_at
     let tde7 = document.createElement('td');
-    tde7.innerText = data.created_at;
-    
-
-    // tde8 button to info dialog
-    let tde8 = document.createElement('td');
-    let button7 = document.createElement('button');
-    button7.className = 'check';
-    button7.setAttribute('data-id', '1');
-    button7.innerText = 'Info';
-    button7.addEventListener('click', () => getOneEntryDialog(data.entry_id)); // Add click event listener
-    tde8.appendChild(button7);
+    tde7.innerText = entry.created_at;
 
     // tde9 button to delete dialog
-    let tde9 = document.createElement('td');
-    let button2 = document.createElement('button');
-    button2.className = 'del';
-    button2.setAttribute('data-id', '1');
-    button2.innerText = 'Delete';
-    button2.addEventListener('click', () => confirmEntryDelete(data.entry_id)); // Add click event listener
-    tde9.appendChild(button2);
+    let tde8 = document.createElement('td');
+    let button3 = document.createElement('button');
+    button3.className = 'del';
+    button3.setAttribute('data-id', '1');
+    button3.innerText = 'Delete';
+    button3.addEventListener('click', () => confirmEntryDelete(entry.entry_id)); // Add click event listener
+    tde8.appendChild(button3);
 
     // td5
    
@@ -459,13 +421,13 @@ async function getEntry() {
     tr.appendChild(tde6);
     tr.appendChild(tde7);
     tr.appendChild(tde8);
-    tr.appendChild(tde9);
 
     
     
 
     // Append the table row element to the table body
     tbody.appendChild(tr);
+  });
   } catch (error) {
     console.log(error);
   }
