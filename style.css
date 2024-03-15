@@ -27,10 +27,16 @@ a:hover {
 }
 
 body {
+  background-color: rgb(255, 255, 255);
   min-width: 320px;
   min-height: 100vh;
   margin: 16px;
 }
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+
 
 h1 {
   font-size: 3.2em;
@@ -80,7 +86,6 @@ button:focus-visible {
 } */
 
 h3 {
-  border-bottom: 1px solid rgb(184, 15, 117);
   margin-top: 50px;
 }
 
@@ -100,10 +105,10 @@ button.del {
 ::backdrop {
   background-image: linear-gradient(
     45deg,
-    magenta,
-    rebeccapurple,
-    dodgerblue,
-    green
+    #68535358,
+    #68535358,
+    #68535358,
+    #68535358
   );
   opacity: 0.75;
 }
@@ -114,7 +119,8 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #ff724f;
+  background-color: #68535358;
+  border-radius: 25px;
 }
 
 li {
@@ -147,6 +153,7 @@ li a:hover:not(.active) {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  
 }
 #name {
   font-weight: bolder;
@@ -156,7 +163,6 @@ li a:hover:not(.active) {
 /* https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l */
 
 .styled-table {
-  border-collapse: collapse;
   margin: 25px 0;
   font-size: 0.9em;
   font-family: sans-serif;
@@ -165,9 +171,10 @@ li a:hover:not(.active) {
 }
 
 .styled-table thead tr {
-  background-color: #009879;
+  background-color: #68535358;
   color: #ffffff;
   text-align: left;
+  
 }
 
 .styled-table th,
@@ -177,10 +184,15 @@ li a:hover:not(.active) {
 
 .styled-table tbody tr {
   border-bottom: 1px solid #dddddd;
+  
 }
 
 .styled-table tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
+}
+/* Alternate row colors for dark mode */
+.dark-mode .styled-table tbody tr:nth-of-type(even) {
+  background-color: #68535358; 
 }
 
 .styled-table tbody tr:last-of-type {
@@ -196,13 +208,25 @@ li a:hover:not(.active) {
   cursor: pointer;
 }
 .forms {
+  border-radius: 15px;
   display: flex; 
   gap: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.updform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 /* Formin tyylittely */
 form {
-  background-color: #009879;
+  border-radius: 25px;
+  background-color: #68535358;
   color: #ffffff;
   padding: 10px;
   margin-top: 25px;
@@ -212,6 +236,43 @@ form {
   font-size: 0.9em;
   font-family: sans-serif;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  
+  
+  
+}
+.reg  {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh; /* Make the container full height of the viewport */
+}
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -250px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Make the container full height of the viewport */
+  margin-top: 50px;
+}
+.container2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Make the container full height of the viewport */
+  margin-top: 100px;
+}
+.loginuser, .createuser {
+  background-color: black;
+  color: white;
+  border-radius: 15px;
+  text-align: center;
 }
 /* Input kenttien tyylittely */
 input[type=text], input[type=password], input[type=email] {
@@ -223,9 +284,14 @@ input[type=text], input[type=password], input[type=email] {
 
 /* Koodiesimerkin tyylittely */
 pre {
-  background-color: aliceblue;
+  background-color: rgb(255, 255, 255);
+  color: black;
 }
-
+/* Tumma teema*/
+.dark-mode pre {
+  background-color: black;
+  color: white;
+}
 #loginResponse, #meResponse {
   font-family: 'Courier New', Courier, monospace;
   font-size: smaller;
@@ -234,8 +300,16 @@ pre {
   word-break:break-all;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 900px) {
   .forms {
     flex-direction: column;
+  }
+  pre {
+    background-color: rgb(255, 255, 255);
+    color: black;
+    font-size: 12px;
+    text-align: center;
+    margin-left: 100px;
+    margin-right: 100px;
   }
 }

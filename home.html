@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+
+  <body>
+    <div class="reg">
+    <h3>REGISTER</h3>
+
+    <pre><code>
+    Username have to be atleast 3 characters long  
+    Password have to be atleast 8 characters long you can use numbers or special characters but they are not required
+    Email have to be working email address
+      </code></pre>
+
+      <form class="create_user_form">
+        <label for="username">Username</label>
+        <input type="text" name="username"/>
+        <label for="password">Password</label>
+        <input type="password" name="password"/>
+        <label for="email">Email</label>
+        <input type="email" name="email"/>
+
+        <input name="submit" type="submit" value="Create user" class="createuser" />
+      </form>
+    </div>
+    <div class="login">
+    <h3>LOGIN</h3>
+    <pre><code>
+     Login with your username and password
+      </code></pre>
+    <div>
+      <form class="login_form">
+        <label for="username">Username</label>
+        <input type="text" name="username"/>
+        <label for="password">Password</label>
+        <input type="password" name="password"/>
+        <input name="submit" type="submit" value="Login" class="loginuser" />
+      </form>
+    </div>
+   
+  <script type="module" src="/start-auth.js"></script>
+</html>

@@ -24,12 +24,3 @@ document.querySelector('#app').innerHTML = `
 `
 document.querySelector('#app').innerHTML = 'Moro';
 
-
-let element = setupCounter(document.querySelector('.chuck'));
-console.log(element);
-show_joke(element);
-show_joke(document.querySelector('.chuck'));
-
-showPics(document.querySelector('.catpics'));
-
-
