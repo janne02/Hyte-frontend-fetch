@@ -8,45 +8,14 @@
   </head>
   <body>
     <ul>
-      <li><a href="#home">Esimerkkisivusto</a></li>
-      <li><a href="#news">Tietoja</a></li>
-      <li style="float: right" class="active logout"><a href="">Logout</a></li>
+      <li style="float: right" class="active logout"><a href="#" id="logout">Logout</a></li>
     </ul>
 
     <!-- <div id="app"></div> -->
 
-    <div class="user">Hei kirjautunut käyttäjä: <span id="name">NIMI TÄHÄN</span>!</div>
-
-    <h3>/api/users</h3>
-
-    <h3>Esimerkkitaulukko</h3>
-
-    <table class="styled-table">
-      <thead>
-        <tr>
-          <th>User Name</th>
-          <th>User Level</th>
-          <th>Info</th>
-          <th>Delete</th>
-          <th>ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Dom</td>
-          <td>6000</td>
-          <td><button class="check" data-id="1">Info</button></td>
-          <td><button class="del" data-id="1">Delete</button></td>
-          <td>1</td>
-        </tr>
-        <!--  <tr class="active-row"> -->
-        <tr>
-          <td>Melissa</td>
-          <td>5150</td>
-          <td><button class="check" data-id="2">Info</button></td>
-          <td><button class="del" data-id="2">Delete</button></td>
-          <td>2</td>
-        </tr>
+    <div class="user">Kirjautunut käyttäjä: <span id="name">NIMI TÄHÄN</span></div>
+  
+    
         <!-- and so on... -->
         <!-- Delete nappula poistaa käyttäjän-->
         <!-- käytämme tässä apuna data-attribuutteja-->
@@ -59,23 +28,8 @@
     <div class="forms">
       <div style="flex: 1">
         <h3>GET and DELETE</h3>
-
-        <p>
-          Hae käyttäjän tiedot painamalla alla olevaa nappia. Tämä hakee tiedot sekä luo taulukon
-          tbody osan. Jokaiselle riville luodaan nappula. Info hakee yksittäisen rivin tiedot ja
-          avaa dialogin. Delete poistaa yksittäisen rivin ja varmistaa tapahtuman confirm()
-          metodilla.
-        </p>
-
         <pre><code>
-          # Get all users (requires token)
-          GET http://127.0.0.1:3000/api/users
-          
-          # Get user by id (requires token)
-          GET http://127.0.0.1:3000/api/users/:id
-          
-          # Delete user (requires token)
-          DELETE http://127.0.0.1:3000/api/users/:id
+          Get your own userdata and delete your account if you have admin rights
           </code></pre>
 
         <table class="styled-table">
@@ -98,24 +52,14 @@
         <button class="get_users">Hae users tiedot</button>
       </div>
       <div style="flex: 1">
-        <h3>PUT and FORMS</h3>
+        <h3>PUT</h3>
 
         <p>
-          Lisää ja päivitä käyttäjiä eli users tiedot formin avulla. Formi lisää uuden käyttäjän
-          nappulasta 'post'. Huomio, että PUT metodi toimii vain kirjatuneen käyttäjän osalta. Eli voit vain muokata käyttäjää, millä olet parhaimmillaan kirjautuneena. Jatkossa olisi fiksua hakea käyttäjän tiedot suoraan formien INPUT kenttiin.
+          
         </p>
 
         <pre><code>
-          
-          # Update user's own data (requires token)
-          PUT http://127.0.0.1:3000/api/users/
-          content-type: application/json
-          
-          {
-            "username": "test-update4",
-            "password": "test-pw-update4",
-            "email": "update4@example.com"
-          }
+         Update your own data, if you are admin you can change any users data
           </code></pre>
 
         <form class="addform">
@@ -129,42 +73,44 @@
   
             <label for="email">Email</label><br>
             <input type="email" id="email" name="email" placeholder="update4@example.com"><br><br>
-  
-    <!-- Hidden input field for user ID (used for PUT request) -->
-            <label for="Id">ID (vain PUT testausta varten)</label><br>
-            <input type="text" id="userId" name="userId" placeholder="ID"><br><br>
-  
-          
-            <button type="button" id="postUserButton">POST</button>
+      
             <button type="button" id="putUserButton">PUT</button>
+            <button type="button" id="putEntryButton">PUT entry</button>
           </div>
           </form>
         </div>
       </div>
-      <h3>PostEntry & PutEntry</h3>
+      <div class="container">
+      <h3>Add diaryentries for user</h3>
+      <p>You can enter your information for healthdiary here</p>
       <form class="addform1">
-      <label for="Entryusername">Username</label><br>
-            <input type="text" id="username" name="username" placeholder="test-update4"><br><br>
+            <label for="entry_date">Date</label><br>
+            <input type="date" id="entry_date" name="entry_date"><br><br>
   
-            <label for="password">Password</label><br>
-            <input type="password" id="password" name="password" placeholder="test-pw-update4"><br><br>
-            <label for="email">Email</label><br>
-            <input type="email" id="email" name="email" placeholder="update4@example.com"><br><br>
-            <!-- Hidden input field for user ID (used for PUT request) -->
-            <label for="Id">ID (vain PUT testausta varten)</label><br>
-            <input type="text" id="userId" name="userId" placeholder="ID"><br><br>
-  
-          
-            <button type="button" id="postEntryButton">POST</button>
-            <button type="button" id="putEntryButton">PUT</button>
+            <label for="mood">What is your current mood?</label><br>
+            <input type="text" id="mood" name="mood"><br><br>
+
+            <label for="weight">How much you weight (kg)</label><br>
+            <input type="number" id="weight" name="weight" step="0.1"><br><br>
+
+            <label for="sleep_hours">How many hours did you sleep?</label><br>
+            <input type="number" id="sleep_hours" name="sleep_hours" step="0.1"><br><br>
+
+            <label for="notes">Add notes</label><br>
+            <input type="text" id="notes" name="password"><br><br>
+
+            <button type="submit" id="addEntry">Add Diary</button>
+
+            
           <!-- https://www.w3schools.com/css/css_form.asp -->
           <!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_form_padding -->
-
+      
           <!-- formin avulla testaamme create ja update user reittejä -->
         </form>
+   
       </div>
     </div>
-
+  </div>
     <dialog class="info_dialog">
       <p>
         <!-- tänne haetaan yksittäinen valittu käyttäjät -->      
@@ -175,15 +121,12 @@
       </p>
       <button autofocus>Close</button>
     </dialog>
-
-    <h3>Kotitehtävä, tee ja testaa kaikki: /api/entries</h3>
-
-    <p>Hae käyttäjän (user: 1) entires tiedot ja console.log</p>
-    <pre>
-      # Get entries by id
-      GET http://localhost:3000/api/entries/:id
-    </pre>
-    <button class="get_entry">Hae (user:1) entries</button>
+  
+  
+    <div class="container2">
+    <H3>HealthDiary</H3>
+    <p>Users diaryentries, admins can modify if requested</p>
+    <button class="get_entry">Show entries</button>
     <table class="styled-table">
           <thead>
             <tr> 
@@ -194,12 +137,13 @@
               <th>sleep_hours</th>
               <th>notes</th> 
               <th>created_at</th>
-              <th>Info</th>
               <th>Delete</th>
             </tr>
           </thead>
           <tbody class="tbody1">
+          </div>
     <script type="module" src="/start-api-harjoituspohja.js"></script>
-
+  
   </body>
+  
 </html>

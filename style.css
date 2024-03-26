@@ -32,6 +32,7 @@ body {
   margin: 16px;
 }
 
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -114,7 +115,8 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #ff724f;
+  background-color: #2f01fd;
+  border-radius: 20px;
 }
 
 li {
@@ -147,6 +149,7 @@ li a:hover:not(.active) {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  
 }
 #name {
   font-weight: bolder;
@@ -165,9 +168,10 @@ li a:hover:not(.active) {
 }
 
 .styled-table thead tr {
-  background-color: #009879;
+  background-color: #002398;
   color: #ffffff;
   text-align: left;
+  
 }
 
 .styled-table th,
@@ -196,13 +200,15 @@ li a:hover:not(.active) {
   cursor: pointer;
 }
 .forms {
+  border-radius: 15px;
   display: flex; 
   gap: 30px;
 }
 
 /* Formin tyylittely */
 form {
-  background-color: #009879;
+  border-radius: 15px;
+  background-color: #2f00ff;
   color: #ffffff;
   padding: 10px;
   margin-top: 25px;
@@ -212,6 +218,42 @@ form {
   font-size: 0.9em;
   font-family: sans-serif;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  
+  
+}
+.reg  {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh; /* Make the container full height of the viewport */
+}
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -250px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Make the container full height of the viewport */
+  margin-top: 50px;
+}
+.container2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Make the container full height of the viewport */
+  margin-top: 100px;
+}
+.loginuser, .createuser {
+  background-color: black;
+  color: white;
+  border-radius: 15px;
+  text-align: center;
 }
 /* Input kenttien tyylittely */
 input[type=text], input[type=password], input[type=email] {

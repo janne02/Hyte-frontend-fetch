@@ -1,23 +1,6 @@
 import './style.css';
 import { fetchData } from './fetch.js';
 
-const bt1 = document.querySelector('.get_entry');
-bt1.addEventListener('click', async () => {
-  console.log('Klikki toimii');
-  const muntokeni = localStorage.getItem('token');
-  const url = 'http://localhost:3000/api/entries/1';
-
-  const options = {
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    headers: {
-      Authorization: 'Bearer: '+ muntokeni,
-    },
-  };
-  fetchData(url, options).then((data) => {
-    // käsitellään fetchData funktiosta tullut JSON
-    console.log(data);
-  });
-});
   let name = localStorage.getItem('name');
   document.getElementById('name').innerHTML = name;
  
@@ -30,19 +13,38 @@ bt1.addEventListener('click', async () => {
 
 // tämä toimi ennen autentikaatiota, nyt tarvitsee tokenin, siistitään pian!
 // sivuille on nyt myös lisätty navigaatio html sivuun, sekä siihen sopiva CSS koodi, hae siis uusi HTML ja UUSI CSS ennen kun aloitat
+document.addEventListener('DOMContentLoaded', function() {
+  // Get the logout
+  const logoutLink = document.getElementById('logout');
+
+  // Add click event listener to the logout link
+  logoutLink.addEventListener('click', function(event) {
+    // Prevent the default behavior of the link (e.g., navigating to "#")
+    event.preventDefault();
+    
+    // Perform logout
+    activelogout();
+  });
+});
+//tyhjentää localStoragesta tokenin ja siirtyy takaisin kirjautumis/rekisteröitymissivulle
+async function activelogout() {
+  localStorage.clear();
+  window.alert("Logout succesfully");
+  window.location.href = 'start-auth.html';
+}
+
 const button1 = document.querySelector('.get_users');
 button1.addEventListener('click', getAllUsers);
-
 
 async function getAllUsers() {
   console.log('Button clicked!');
 
   try {
-    const token = localStorage.getItem('token');
+    const tokeni = localStorage.getItem('token');
     
     const response = await fetch('http://127.0.0.1:3000/api/users', {
       headers: {
-        Authorization: 'Bearer: ' + token,
+        Authorization: 'Bearer: ' + tokeni,
       }
     });
 
@@ -63,30 +65,30 @@ async function getAllUsers() {
       let td1 = document.createElement('td');
       td1.innerText = element.username;
 
-      // td2 userlevel
+      // td2 userlvl
       let td2 = document.createElement('td');
       td2.innerText = element.user_level;
 
-      // td3 button to info dialog
+      // td3 info-button
       let td3 = document.createElement('td');
       let button1 = document.createElement('button');
       button1.className = 'check';
       button1.setAttribute('data-id', '1');
       button1.innerText = 'Info';
-      button1.addEventListener('click', () => getOneUserDialog(element.user_id)); // Add click event listener
+      button1.addEventListener('click', () => getOneUserDialog(element.user_id)); 
       td3.appendChild(button1);
 
-      // td4 button to delete dialog
+      // td4 delete-button
       let td4 = document.createElement('td');
       let button2 = document.createElement('button');
       button2.className = 'del';
       button2.setAttribute('data-id', '1');
       button2.innerText = 'Delete';
       button2.innerText = 'Delete';
-      button2.addEventListener('click', () => confirmDelete(element.user_id)); // Add click event listener
+      button2.addEventListener('click', () => confirmDelete(element.user_id)); 
       td4.appendChild(button2);
 
-      // td5 user_id
+      // td5 user-id
       let td5 = document.createElement('td');
       td5.innerText = element.user_id;
 
@@ -104,7 +106,7 @@ async function getAllUsers() {
     console.log(error);
   }
 }
-
+//näyttää valitun käyttäjän tiedot
 async function getOneUserDialog(userId) {
   try {
     const token = localStorage.getItem('token');
@@ -145,77 +147,46 @@ function openDialog(userData) {
         dialog.close();
     });
 }
-async function getOneEntryDialog(entryId) {
-  try {
-    const token = localStorage.getItem('token');
-      const response = await fetch(`http://127.0.0.1:3000/api/entries/${entryId}`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer: ' + token,
-      }
-    });
-
-      const entryData = await response.json();
-      console.log(entryData);
-      // Open dialog and display user details
-      openEntryDialog(entryData);
-  } catch (error) {
-      console.error('Error fetching user data:', error);
-  }
-}
-function openEntryDialog(entryData) {
-  // Get the dialog element
-  const dialog = document.querySelector('.info_dialog');
-  // Get the spans inside the dialog for each user data
-  const spans = dialog.querySelectorAll('span');
-
-  // Populate the spans with user data
-  spans[0].innerText = entryData.entry_id;
-  spans[1].innerText = entryData.entry_date;
-  spans[2].innerText = entryData.mood;
-  spans[3].innerText = entryData.sleep_hours;
-  spans[4].innerText = entryData.notes;
-  spans[5].innerText = entryData.created_at;
-
-  // Show the dialog
-  dialog.showModal();
-
-  //button to close dialog
-  const closeButton = dialog.querySelector('button[autofocus]');
-  closeButton.addEventListener('click', () => {
-      dialog.close();
-  });
-}
-//Function to confirm user deletion
 async function confirmDelete(userId) {
   try {
-    const token = localStorage.getItem('token');
-      //confirm user delete
-      const isConfirmed = confirm(`Are you sure you want to delete the user with ID: ${userId}?`);
+    const tokeni = localStorage.getItem('token');
 
-      if (!isConfirmed) {
-          //if confirm button is not pressed, goes back
-          return;
-      }
+    // Confirm the delete
+    const isConfirmed = confirm(`Are you sure you want to delete the user with ID: ${userId}?`);
 
-      // Delete request
-      const response = await fetch(`http://127.0.0.1:3000/api/users/${userId}`, {
-        method: 'DELETE',
+    if (!isConfirmed) {
+      // If not confirmed, exit
+      return;
+    }
+    
+    // DELETE request
+    const response = await fetch(`http://127.0.0.1:3000/api/users/${userId}`, {
+      method: 'DELETE',
       headers: {
-        Authorization: 'Bearer: ' + token,
+        Authorization: 'Bearer ' + tokeni,
       }
     });
-     
-      if (!response.ok) {
-          throw new Error('Failed to delete user');
-      }
 
-      console.log('User deleted successfully');
-      
+    if (!response.ok) {
+      if (response.status === 403) {
+        alert('Unauthorized: Only admins can delete users');
+      } else if (response.error && response.error === 409) {
+        alert('Cannot delete user: user has diary entries, need to be deleted first.');
+      } else {
+        throw new Error('Failed to delete user');
+      }
+    } else {
+      // Show success message if the user is successfully deleted
+      alert('User deleted successfully');
+    }
+
+    // Refresh the user list after a successful deletion
+    await getAllUsers();
   } catch (error) {
-      console.error('Error deleting user:', error);
+    alert('Error deleting user: ' + error.message);
   }
 }
+//Function to confirm entry deletion, if ok is pressed entry is deleted if not then window closes and nothing happens
 async function confirmEntryDelete(entry_id) {
   try {
     const token = localStorage.getItem('token');
@@ -240,43 +211,12 @@ async function confirmEntryDelete(entry_id) {
       }
 
       console.log('Entry deleted successfully');
-      
+      await getEntry();
   } catch (error) {
       console.error('Error deleting entry:', error);
   }
 }
-const userpost = document.getElementById('postUserButton');
-userpost.addEventListener('click', async () => {
-
-
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const email = document.getElementById('email').value;
-
-  const formData = {
-    username: username,
-    password: password,
-    email: email
-  };
-
-  try {
-    const response = await fetch('http://127.0.0.1:3000/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to add user');
-    }
-
-    window.alert('User added successfully');
-  } catch (error) {
-    window.alert('Error adding user:', error);
-  }
-});
+//User can only update his own info, admin can update any user info
 const userput = document.getElementById('putUserButton');
 userput.addEventListener('click', async () => {
   const tokeni = localStorage.getItem('token');
@@ -305,47 +245,20 @@ userput.addEventListener('click', async () => {
 
     if (!response.ok) {
       throw new Error('Failed to update user');
-    }
-
-    console.log('User updated successfully');
-  } catch (error) {
-    console.error('Error updating user:', error);
-  }
-});
-const postEntry = document.getElementById('postEntryButton');
-postEntry.addEventListener('click', async () => {
-
-
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-
-  const formData = {
-    username: username,
-    password: password,
-    email: email,
-  };
-
-  try {
-    const response = await fetch('http://127.0.0.1:3000/api/entries', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
       
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to add entry');
     }
+    window.alert('User updated successfully');
 
-    console.log('Entry added successfully');
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('email').value = '';
   } catch (error) {
-    console.error('Error adding Entry:', error);
+    window.alert('Error updating user: Input information is not valid or doesnt meet requirements.');
   }
 });
-const putEntry = document.getElementById('putEntryButton');
-putEntry.addEventListener('click', async () => {
+//User can update their existing diaryentry, admin can update any users diaryentry
+const postEntry = document.getElementById('putEntryButton');
+postEntry.addEventListener('click', async () => {
   const token = localStorage.getItem('token');
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
@@ -378,74 +291,71 @@ putEntry.addEventListener('click', async () => {
     window.alert('Error updating entry:', error);
   }
 });
+//User can get his own diaryentry with this, admin can get all users diaryentries
 const button7 = document.querySelector('.get_entry');
 button7.addEventListener('click', getEntry);
 async function getEntry() {
   console.log('Button clicked!');
+  
 
   try {
-    const token = localStorage.getItem('token');
     
-    const response = await fetch('http://127.0.0.1:3000/api/entries/', {
+    const token = localStorage.getItem('token');
+    const response = await fetch('http://localhost:3000/api/entries/', {
       headers: {
-        Authorization: 'Bearer: ' + token,
+        Authorization: 'Bearer ' + token,
       }
     });
 
     const data = await response.json();
     console.log(data);
 
+    if(data.length == 0) {
+      alert('No diaryentries found!!');
+      return;
+    }
+
     // Clear table body
     const tbody = document.querySelector('.tbody1');
     tbody.innerHTML = '';
-
+    data.forEach(entry => {
     // Create table row element
     let tr = document.createElement('tr');
 
     // tde0 entry_id
     let tde0 = document.createElement('td');
-    tde0.innerText = data.entry_id;
+    tde0.innerText = entry.entry_id;
 
     // tde1 user_id
 
 
     // tde2 entry_date
     let tde2 = document.createElement('td');
-    tde2.innerText = data.entry_date;
+    tde2.innerText = entry.entry_date;
     // tde3 mood
     let tde3 = document.createElement('td');
-    tde3.innerText = data.mood;
+    tde3.innerText = entry.mood;
     // tde4 weight
     let tde4 = document.createElement('td');
-    tde4.innerText = parseFloat(data.weight).toFixed(2);
+    tde4.innerText = parseFloat(entry.weight).toFixed(2);
     // tde5 sleep_hours
     let tde5 = document.createElement('td');
-    tde5.innerText = parseInt(data.sleep_hours);
+    tde5.innerText = parseInt(entry.sleep_hours);
     // tde6 notes
     let tde6 = document.createElement('td');
-    tde6.innerText = data.notes;
+    tde6.innerText = entry.notes;
     // td7 created_at
     let tde7 = document.createElement('td');
-    tde7.innerText = data.created_at;
-    
-
-    // tde8 button to info dialog
-    let tde8 = document.createElement('td');
-    let button7 = document.createElement('button');
-    button7.className = 'check';
-    button7.setAttribute('data-id', '1');
-    button7.innerText = 'Info';
-    button7.addEventListener('click', () => getOneEntryDialog(data.entry_id)); // Add click event listener
-    tde8.appendChild(button7);
+    tde7.innerText = entry.created_at;
 
     // tde9 button to delete dialog
-    let tde9 = document.createElement('td');
-    let button2 = document.createElement('button');
-    button2.className = 'del';
-    button2.setAttribute('data-id', '1');
-    button2.innerText = 'Delete';
-    button2.addEventListener('click', () => confirmEntryDelete(data.entry_id)); // Add click event listener
-    tde9.appendChild(button2);
+    let tde8 = document.createElement('td');
+    let button3 = document.createElement('button');
+    button3.className = 'del';
+    button3.setAttribute('data-id', '1');
+    button3.innerText = 'Delete';
+    button3.addEventListener('click', () => confirmEntryDelete(entry.entry_id)); // Add click event listener
+    tde8.appendChild(button3);
 
     // td5
    
@@ -459,14 +369,78 @@ async function getEntry() {
     tr.appendChild(tde6);
     tr.appendChild(tde7);
     tr.appendChild(tde8);
-    tr.appendChild(tde9);
 
     
     
 
     // Append the table row element to the table body
     tbody.appendChild(tr);
+  });
   } catch (error) {
     console.log(error);
   }
+}
+//User can add new diaryentry
+const addButton = document.getElementById('addEntry');
+
+const entryForm = document.querySelector('.addform1');
+
+addButton.addEventListener('click', async (event) => {
+  event.preventDefault();
+console.log(addButton)
+
+const entryDateInput = document.getElementById('entry_date').value;
+const entryDate = formatDate(entryDateInput);
+  const mood = document.getElementById('mood').value;
+  const weight = parseFloat(document.getElementById('weight').value);
+  const sleephours = parseInt(document.getElementById('sleep_hours').value);
+  const notes = document.getElementById('notes').value;
+
+  const entryData = {
+    entry_date: entryDate,
+    mood: mood,
+    weight: weight,
+    sleep_hours: sleephours,
+    notes: notes
+  };
+console.log(entryData)
+try {
+  const tokeni = localStorage.getItem('token');
+
+  const response = await fetch('http://127.0.0.1:3000/api/entries', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + tokeni
+    },
+    body: JSON.stringify(entryData)
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to add entry');
+  }
+
+  alert('Entry added successfully');
+
+
+  // input field reset
+  document.getElementById('entry_date').value = '';
+  document.getElementById('mood').value = '';
+  document.getElementById('weight').value = '';
+  document.getElementById('sleep_hours').value = '';
+  document.getElementById('notes').value = '';
+
+
+} catch (error) {
+  console.error('Error adding entry:', error);
+  alert('Error adding entry: ' + error.message);
+}
+});
+//date format so it works on database
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
